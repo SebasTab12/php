@@ -1,13 +1,23 @@
 <!doctype html>
 <html lang="es">
 <head>
+
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+
  <meta charset="utf-8">
+
  <title>@yield('title','Gestor ADSO')</title>
+
  <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
  <style>
  body{max-width:980px;margin:24px auto;font-family:system-ui}
  nav a{margin-right:12px}
- .flash{background:#e6ffed;padding:8px;border-radius:8px;margin-bottom:10px}
+ .flash{background:#e6ffed;padding:8px;border-radius:8px;margin:10px 0}
+ .danger{background:#ffecec;padding:8px;border-radius:8px;margin:10px 0}
+ table{width:100%;border-collapse:collapse}
+ th,td{border:1px solid #ddd;padding:6px}
+ form{margin:0;display:inline}
  </style>
 </head>
 <body>
