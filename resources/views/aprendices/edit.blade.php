@@ -1,17 +1,24 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="max-width: 600px; margin: 0 auto;">
-    <h2>Editar Aprendiz</h2>
+<section class="learner-editor">
+    <header class="learner-editor-header">
+        <a class="learner-back" href="{{ route('aprendices.index') }}">← Volver al directorio</a>
+        <p class="learner-eyebrow">DIRECTORIO <span>/</span> EDITAR REGISTRO</p>
+        <h1>Editar aprendiz</h1>
+        <p class="learner-subtitle">Actualiza la información de este aprendiz.</p>
+    </header>
 
-    <form action="{{ route('aprendices.update', $aprendiz) }}" method="POST">
+    <form class="learner-editor-form" action="{{ route('aprendices.update', $aprendiz) }}" method="POST">
         @csrf
         @method('PUT')
-    
+
         @include('aprendices._form')
 
-    <button type="submit" style="padding: 8px 16px; background: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer;">Actualizar Aprendiz</button>
-    <a href="{{ route('aprendices.index') }}" style="margin-left: 10px; color: #6c757d; text-decoration: none;">Cancelar</a>
-</form>
-</div>
+        <div class="learner-form-actions">
+            <a href="{{ route('aprendices.index') }}">Cancelar</a>
+            <button type="submit">Actualizar aprendiz</button>
+        </div>
+    </form>
+</section>
 @endsection

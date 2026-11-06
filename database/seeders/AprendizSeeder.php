@@ -8,6 +8,6 @@ class AprendizSeeder extends Seeder
 {
     public function run(): void
     {
-        Aprendices::factory()->count(25)->create();
+        Aprendiz::factory()->count(25)->create();
     }
 }

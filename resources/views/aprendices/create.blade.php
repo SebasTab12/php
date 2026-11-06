@@ -1,15 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="max-width: 600px; margin: 0 auto;">
-    <h2>Crear Nuevo Aprendiz</h2>
+<section class="learner-editor">
+    <header class="learner-editor-header">
+        <a class="learner-back" href="{{ route('aprendices.index') }}">← Volver al directorio</a>
+        <p class="learner-eyebrow">DIRECTORIO <span>/</span> NUEVO REGISTRO</p>
+        <h1>Crear aprendiz</h1>
+        <p class="learner-subtitle">Completa los datos para agregar una persona al directorio.</p>
+    </header>
 
-    <form action="{{ route('aprendices.store') }}" method="POST">
+    <form class="learner-editor-form" action="{{ route('aprendices.store') }}" method="POST">
         @csrf
         @include('aprendices._form')
 
-        <button type="submit" style="padding: 8px 16px; background: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer;">Guardar Aprendiz</button>
-        <a href="{{ route('aprendices.index') }}" style="margin-left: 10px; color: #6c757d; text-decoration: none;">Cancelar</a>
+        <div class="learner-form-actions">
+            <a href="{{ route('aprendices.index') }}">Cancelar</a>
+            <button type="submit">Guardar aprendiz</button>
+        </div>
     </form>
-</div>
+</section>
 @endsection

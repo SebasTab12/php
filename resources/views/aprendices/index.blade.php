@@ -1,58 +1,69 @@
 @extends('layouts.app')
 
 @section('content')
-<div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-    <h2>Listado de Aprendices</h2>
-    <a href="{{ route('aprendices.create') }}" style="padding: 6px 12px; background: #007bff; color: #fff; text-decoration: none; border-radius: 4px;">+ Nuevo Aprendiz</a>
-</div>
+<section class="learner-page">
+    <header class="learner-header">
+        <div>
+            <p class="learner-eyebrow">CENTRO DE FORMACIÓN <span>/</span> DIRECTORIO</p>
+            <h1>Aprendices</h1>
+            <p class="learner-subtitle">Consulta y administra la información de tus aprendices.</p>
+        </div>
+        <a class="learner-create" href="{{ route('aprendices.create') }}"><span>+</span> Nuevo aprendiz</a>
+    </header>
 
-<!-- Formulario de búsqueda -->
-<form action="{{ route('aprendices.index') }}" method="GET" style="margin-bottom: 20px; display: flex; gap: 8px;">
-    <input type="text" name="q" value="{{ $q ?? '' }}" placeholder="Buscar por nombre o documento..." style="padding: 6px; flex: 1; border: 1px solid #ddd; border-radius: 4px;">
-    <button type="submit" style="padding: 6px 12px; background: #6c757d; color: #fff; border: none; border-radius: 4px; cursor: pointer;">Buscar</button>
-    @if(!empty($q))
-        <a href="{{ route('aprendices.index') }}" style="padding: 6px 12px; background: #dc3545; color: #fff; text-decoration: none; border-radius: 4px;">Limpiar</a>
-    @endif
-</form>
+    <form class="learner-search" action="{{ route('aprendices.index') }}" method="GET">
+        <label class="sr-only" for="learner-query">Buscar aprendices</label>
+        <input id="learner-query" type="text" name="q" value="{{ $q ?? '' }}" placeholder="Buscar por nombre o documento...">
+        <button type="submit" class="learner-search-button"><span aria-hidden="true">⌕</span> Buscar</button>
+        @if(!empty($q))
+            <a class="learner-clear" href="{{ route('aprendices.index') }}">Limpiar</a>
+        @endif
+    </form>
 
-<table>
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Nombre</th>
-            <th>Documento</th>
-            <th>Correo</th>
-            <th>Ficha ID</th>
-            <th>Acciones</th>
-        </tr>
-    </thead>
-    <tbody>
-        @forelse($aprendices as $aprendiz)
-            <tr>
-                <td>{{ $aprendiz->id }}</td>
-                <td>{{ $aprendiz->nombre }}</td>
-                <td>{{ $aprendiz->documento }}</td>
-                <td>{{ $aprendiz->correo }}</td>
-                <td>{{ $aprendiz->ficha_id ?? 'N/A' }}</td>
-                <td>
-                    <a href="{{ route('aprendices.edit', $aprendiz) }}" style="color: #b45309; text-decoration: none; margin-right: 8px; font-weight: bold;">Editar</a>
-                    
-                    <form action="{{ route('aprendices.destroy', $aprendiz) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este aprendiz?');">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" style="background: none; border: none; color: #dc3545; cursor: pointer; padding: 0; font-weight: bold;">Eliminar</button>
-                    </form>
-                </td>
-            </tr>
-        @empty
-            <tr>
-                <td colspan="6" style="text-align: center;">No hay aprendices registrados.</td>
-            </tr>
-        @endforelse
-    </tbody>
-</table>
+    <div class="learner-table-frame">
+        <table class="learner-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Aprendiz</th>
+                    <th>Documento</th>
+                    <th>Correo</th>
+                    <th>Ficha ID</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse($aprendices as $aprendiz)
+                    <tr>
+                        <td class="learner-id">{{ $aprendiz->id }}</td>
+                        <td class="learner-person"><span class="learner-avatar" aria-hidden="true">{{ strtoupper(substr($aprendiz->nombre, 0, 1)) }}</span><span>{{ $aprendiz->nombre }}</span></td>
+                        <td>{{ $aprendiz->documento }}</td>
+                        <td class="learner-email">{{ $aprendiz->correo }}</td>
+                        <td><span class="learner-cohort">{{ $aprendiz->ficha_id ?? 'N/A' }}</span></td>
+                        <td class="learner-actions-cell">
+                            <div class="learner-actions">
+                                <a class="learner-edit" href="{{ route('aprendices.edit', $aprendiz) }}">Editar</a>
+                                <form action="{{ route('aprendices.destroy', $aprendiz) }}" method="POST" onsubmit="return confirm('¿Estás seguro de eliminar este aprendiz?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="learner-delete">Eliminar</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td class="learner-empty" colspan="6">
+                            <span class="learner-empty-mark" aria-hidden="true">—</span>
+                            <strong>No hay aprendices para mostrar</strong>
+                            <span>Prueba otra búsqueda o registra un nuevo aprendiz.</span>
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
 
-<div style="margin-top: 20px;">
-    {{ $aprendices->links() }}
-</div>
+    <div class="learner-pagination">{{ $aprendices->links() }}</div>
+</section>
 @endsection
